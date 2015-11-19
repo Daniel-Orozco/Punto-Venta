@@ -13,23 +13,13 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from ventasapp import views
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+urlpatterns = patterns('',
+    url(r'^$', views.index, name="index"),
+    url(r'^sales/$',views.list_sales, name="list_sales"),
     url(r'^sales/(?P<sale>([A-Z]{3,4}))/$', views.show_sale),
-    """
-    url(r'^altas/', views.altas),
-    url(r'^patito/', views.patito),
-    url(r'^carreras/$', views.lista_carreras, name="lista_carreras"),
-    
-    url(r'^carreras/agregar/$', views.agregar_carrera),
-    url(r'^carreras/(?P<carrera>([A-Z]{3,4}))/editar/$', views.editar_carrera),
-    url(r'^carreras/(?P<carrera>([A-Z]{3,4}))/eliminar/$', views.eliminar_carrera),
-    url(r'^alumnos/$', views.lista_alumnos, name="lista_alumnos"),
-    url(r'^alumnos/agregar/$', views.agregar_alumno),
-    url(r'^alumnos/(?P<alumno>(\d{1,6}))/editar/$', views.editar_alumno),
-    url(r'^alumnos/(?P<alumno>(\d{1,6}))/eliminar/$', views.eliminar_alumno),
-    """
-]
+    url(r'^sales/create/$', views.create_sale),
+)

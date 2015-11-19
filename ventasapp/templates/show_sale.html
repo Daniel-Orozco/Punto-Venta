@@ -1,0 +1,15 @@
+Sale number: {{sale.id}}
+Date created: {{sale.date_created}}
+<br>
+Subtotal: ${{sale.subtotal}}
+Tax: %{{sale.tax}}
+Total: ${{sale.total}}
+<br>
+Payment: ${{sale.payment}}
+Change: ${{sale.change}}
+
+id = models.AutoField(primary_key=True)
+	date_created = models.DateTimeField('date created')
+	subtotal = models.DecimalField(max_digits=10,decimal_places=2)
+	tax = models.IntegerField()
+	payment = models.DecimalField(max_digits=10,decimal_places=2)
