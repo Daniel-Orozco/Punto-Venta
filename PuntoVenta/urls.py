@@ -18,4 +18,18 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^sales/(?P<sale>([A-Z]{3,4}))/$', views.show_sale),
+    """
+    url(r'^altas/', views.altas),
+    url(r'^patito/', views.patito),
+    url(r'^carreras/$', views.lista_carreras, name="lista_carreras"),
+    
+    url(r'^carreras/agregar/$', views.agregar_carrera),
+    url(r'^carreras/(?P<carrera>([A-Z]{3,4}))/editar/$', views.editar_carrera),
+    url(r'^carreras/(?P<carrera>([A-Z]{3,4}))/eliminar/$', views.eliminar_carrera),
+    url(r'^alumnos/$', views.lista_alumnos, name="lista_alumnos"),
+    url(r'^alumnos/agregar/$', views.agregar_alumno),
+    url(r'^alumnos/(?P<alumno>(\d{1,6}))/editar/$', views.editar_alumno),
+    url(r'^alumnos/(?P<alumno>(\d{1,6}))/eliminar/$', views.eliminar_alumno),
+    """
 ]

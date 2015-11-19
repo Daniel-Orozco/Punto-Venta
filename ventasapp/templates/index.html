@@ -1,0 +1,32 @@
+{ % if sales % }
+    <table>
+    <tr>
+        <th>Clave</th>
+        <th>Nombre</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+    </tr>
+    {% for s in SalesParameter %}
+    <tr>
+        <td>{{s.id}}</td>
+        <td>{{s.nombre}}</td>
+        <td>
+            <a href="{{s.id}}/edit/">Edit</a>
+        </td>
+        <td>
+            <a href="{{s.id}}/delete/">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <a href="create/">
+                <button>Create Sale</button>
+            </a>
+        </td>
+    </tr>
+</table>
