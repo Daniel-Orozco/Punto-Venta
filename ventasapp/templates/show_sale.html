@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %} Show Sale {% endblock title %}
+
+{% block content %} 
 Sale number: {{sale.id}}
 Date created: {{sale.date_created}}
 <br>
@@ -13,3 +18,5 @@ id = models.AutoField(primary_key=True)
 	subtotal = models.DecimalField(max_digits=10,decimal_places=2)
 	tax = models.IntegerField()
 	payment = models.DecimalField(max_digits=10,decimal_places=2)
+
+{% endblock content %}

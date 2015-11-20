@@ -1,4 +1,6 @@
 from __future__ import division
+from datetime import datetime
+from decimal import Decimal
 from django.db import models
 
 class Sale(models.Model):
@@ -8,14 +10,20 @@ class Sale(models.Model):
 	tax = models.IntegerField()
 	payment = models.DecimalField(max_digits=10,decimal_places=2)
 
-	@property
 	def total(self):
-		return self.subtotal*(1+(self.tax/100))
+		sub = self.subtotal
+		tx = Decimal.from_float(1+(self.tax / 100.00))
+		total = sub*tx
+		return total
 
-	@property
 	def change(self):
-		return self.total - self.payment
+		change = self.total()
+		self.payment
+		return change
 	
+	def save( self, *args, **kw ):
+		self.date_created = datetime.now()
+		super(Sale, self).save(*args, **kw)
 
 	def __str__(self):
 		return self.id

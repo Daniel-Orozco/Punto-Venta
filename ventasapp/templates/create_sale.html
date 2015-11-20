@@ -1,3 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %} Create Sale {% endblock title %}
+
+{% block content %}
+
 <form action="/sales/create/" method="POST">
     {% csrf_token %}
     <div class="middle-panel">
@@ -33,3 +39,5 @@
     }
 
 </style>
+
+{% endblock content %}

@@ -1,41 +1,17 @@
-<table>
-    <tr>
-        <th>Sale ID</th>
-        <th>Date</th>
-        <th>Subtotal</th>
-        <th>Tax</th>
-        <th>Total</th>
-        <th>Payment</th>
-        <th>Change</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    {% for s in SalesParameter %}
-    <tr>
-        <td>{{s.id}}</td>
-        <td>{{s.date_created}}</td>
-        <td>{{s.subtotal}}</td>
-        <td>{{s.tax}}</td>
-        <td>{{s.total}}</td>
-        <td>{{s.payment}}</td>
-        <td>{{s.change}}</td>
-        <td>
-            <a href="{{s.id}}/edit/">Edit</a>
-        </td>
-        <td>
-            <a href="{{s.id}}/delete/">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-            <a href="sales/create/">
-                <button>Create Sale</button>
-            </a>
-        </td>
-    </tr>
-</table>
+{% extends "base.html" %}
+
+{% block title %} Index {% endblock title %}
+
+{% block content %}
+<h1>Welcome!</h1>
+{% for s in SalesParameter %}
+    {{s.id}}
+    {{s.date_created}}
+    {{s.subtotal}}
+    {{s.tax}}
+    {{s.total}}
+    {{s.payment}}
+    {{s.change}}
+{% endfor %}
+
+{% endblock content %}

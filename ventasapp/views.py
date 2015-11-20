@@ -19,12 +19,12 @@ def create_sale(request):
 		form = SaleForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect("index")
+			return redirect("list_sales")
 		else:
 			return HttpResponse("Error")
 	else:
 		form = SaleForm()
-		return render_to_response("index.html", {"form":form}, context_instance = RequestContext(request))
+		return render_to_response("sales.html", {"form":form}, context_instance = RequestContext(request))
 
 def list_sales(request):
 	sales = Sale.objects.all()
