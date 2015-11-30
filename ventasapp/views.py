@@ -5,7 +5,8 @@ from django.template import RequestContext
 from ventasapp.models import Sale
 from ventasapp.forms import SaleForm
 
-# Create your views here.
+# SALES
+
 def index(request):
 	sales = Sale.objects.all()
 	return render_to_response("index.html",{"SalesParameter": sales},context_instance = RequestContext(request))
@@ -20,11 +21,29 @@ def create_sale(request):
 		if form.is_valid():
 			form.save()
 			return redirect("list_sales")
-		else:
-			return HttpResponse("Error")
 	else:
 		form = SaleForm()
 		return render_to_response("sales.html", {"form":form}, context_instance = RequestContext(request))
+
+def edit_sale(request, sale):
+	sal = Sale.objects.get(id = sale)
+	if request.method == 'POST':
+		sal.subtotal = request.POST['subtotal']
+		sal.payment = request.POST['payment']
+		sal.tax = request.POST['tax']
+		sal.save()
+		return redirect("list_sales")
+	else:
+		form = SaleForm(instance = sal)
+		return render_to_response("edit_sale.html", {"form":form, "sale":sale}, context_instance = RequestContext(request)) 
+
+def delete_sale(request, sale):
+    sal = Sale.objects.get(id = sale)
+    if request.method == "POST":
+        sal.delete()
+        return redirect("list_sales")
+    else:
+        return render_to_response("delete_sale.html", {"sale": sale}, context_instance = RequestContext(request))
 
 def list_sales(request):
 	sales = Sale.objects.all()

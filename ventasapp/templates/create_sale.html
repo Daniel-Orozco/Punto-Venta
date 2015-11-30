@@ -6,38 +6,16 @@
 
 <form action="/sales/create/" method="POST">
     {% csrf_token %}
-    <div class="middle-panel">
-        <table class="blue-table">
         {% for field in form %}
             <tr>
                 <td>{{field.errors}}</td>
             </tr>
-            <tr class="row">
+            <tr>
                 <td>{{field.label}}</td>
                 <td>{{field}}</td>
             </tr>
         {% endfor %}
-        </table>
-    </div>
+
     <input type="submit">
 </form>
-
-<style>
-    .blue-table {
-        background-color: blue;
-        width : 70%;
-    }
-    .row {
-        color: white;
-    }
-    .errorlist {
-        color : black;
-        background-color : red;
-    }
-    .middle-panel {
-        width: 50%;
-    }
-
-</style>
-
 {% endblock content %}

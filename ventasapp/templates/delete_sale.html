@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} Edit Sale {% endblock title %}
+
+{% block content %}
+
+Are you sure you want to delete this sale? <br>
+
+<a href="/sales" class="btn btn-default">Return</a>
+
+<form action="/sales/{{sale}}/delete/" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit">
+</form>
+
+{% endblock content %}

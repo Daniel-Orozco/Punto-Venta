@@ -3,45 +3,34 @@
 {% block title %} Sales List {% endblock title %}
 
 {% block content %} 
-<table>
-    <tr>
-        <th>Sale ID</th>
-        <th>Date</th>
+<div class="col-md-6">
+    <table class="table table-striped">
+        <th>ID</th>
+        <th>Date created</th>
         <th>Subtotal</th>
         <th>Tax</th>
         <th>Total</th>
         <th>Payment</th>
         <th>Change</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    {% for s in SalesParameter %}
-    <tr>
-        <td>{{s.id}}</td>
-        <td>{{s.date_created}}</td>
-        <td>{{s.subtotal}}</td>
-        <td>{{s.tax}}</td>
-        <td>{{s.total}}</td>
-        <td>{{s.payment}}</td>
-        <td>{{s.change}}</td>
-        <td>
-            <a href="{{s.id}}/edit/">Edit</a>
-        </td>
-        <td>
-            <a href="{{s.id}}/delete/">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-            <a href="create/">
-                <button>Create Sale</button>
-            </a>
-        </td>
-    </tr>
-</table>
+        <th></th>
+        <th></th>
+        {% for s in SalesParameter %}
+            <tr>
+                <td>{{s.id}}</td>
+                <td>{{s.date_created}}</td>
+                <td>{{s.subtotal}}</td>
+                <td>{{s.tax}}%</td>
+                <td>{{s.total}}</td>
+                <td>{{s.payment}}</td>
+                <td>{{s.change}}</td>
+                <td><a href="{{s.id}}/edit/">Edit</a></td>
+                <td><a href="{{s.id}}/delete/">Delete</a></td>
+
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="col-md-6">
+<a href="/sales/create" class="btn btn-info" role="button">Create</a>
+</div>
 {% endblock content %}

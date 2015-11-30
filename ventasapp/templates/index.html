@@ -4,14 +4,7 @@
 
 {% block content %}
 <h1>Welcome!</h1>
-{% for s in SalesParameter %}
-    {{s.id}}
-    {{s.date_created}}
-    {{s.subtotal}}
-    {{s.tax}}
-    {{s.total}}
-    {{s.payment}}
-    {{s.change}}
-{% endfor %}
+
+<a href="/sales" class="btn btn-info" role="button">Sales</a>
 
 {% endblock content %}

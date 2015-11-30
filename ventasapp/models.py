@@ -13,17 +13,17 @@ class Sale(models.Model):
 	def total(self):
 		sub = self.subtotal
 		tx = Decimal.from_float(1+(self.tax / 100.00))
-		total = sub*tx
+		total = (sub*tx).quantize(Decimal("0.00"))
 		return total
 
 	def change(self):
-		change = self.total()
-		self.payment
+		change = (self.payment - self.total()).quantize(Decimal("0.00"))
 		return change
 	
 	def save( self, *args, **kw ):
-		self.date_created = datetime.now()
-		super(Sale, self).save(*args, **kw)
+		if self.payment >= self.total:
+			self.date_created = datetime.now()
+			super(Sale, self).save(*args, **kw)
 
 	def __str__(self):
 		return self.id
