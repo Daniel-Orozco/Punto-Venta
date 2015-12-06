@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %} Station {% endblock title %}
+
+{% block content %}
+<div class="container">
+	<!-- -->
+	<div class="row">
+		<table>
+			<tr>
+			<th> <h1> Sales </h1> </th>
+			</tr>
+			<tr>
+				<td><h3> ID </h3> </td>
+				<td> {{sales}}</td>
+			</tr>
+			<tr>
+				<td><h3> Date:  </h3> </td>
+				<td> {{date}}</td>
+			</tr>
+		</table>
+	</div> 
+	<div class="row">
+		
+	</div>
+	<div class="row">
+		<div class="col-md-offset-3">
+		</div>
+	</div>
+</div>
+{% endblock content %}

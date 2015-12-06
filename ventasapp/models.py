@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.db import models
 
 class Sale(models.Model):
+
 	id = models.AutoField(primary_key=True)
 	date_created = models.DateTimeField('date created')
 	subtotal = models.DecimalField(max_digits=10,decimal_places=2)
@@ -12,7 +13,7 @@ class Sale(models.Model):
 
 	def total(self):
 		sub = self.subtotal
-		tx = Decimal.from_float(1+(self.tax / 100.00))
+		tx = Decimal.from_float(1.00+(self.tax / 100.00))
 		total = (sub*tx).quantize(Decimal("0.00"))
 		return total
 
@@ -21,7 +22,7 @@ class Sale(models.Model):
 		return change
 	
 	def save( self, *args, **kw ):
-		if self.payment >= self.total:
+		if self.payment >= self.subtotal*Decimal.from_float(1.00+(self.tax / 100.00)):
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
