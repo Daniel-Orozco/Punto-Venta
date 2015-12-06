@@ -10,4 +10,8 @@ urlpatterns = patterns('',
     url(r'^sales/create/$', views.create_sale),
     url(r'^sales/(?P<sale>([0-9]{1,9}))/edit/$', views.edit_sale),
     url(r'^sales/(?P<sale>([0-9]{1,9}))/delete/$', views.delete_sale),
+    # Product
+    url(r'^products/create/$', views.create_product),
+    url(r'^products/(?P<product>([0-9]{1,9}))/edit/$', views.edit_product),
+    url(r'^products/(?P<product>([0-9]{1,9}))/delete/$', views.delete_product),
 )

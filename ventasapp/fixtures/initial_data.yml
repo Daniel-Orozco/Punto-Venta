@@ -1,0 +1,6 @@
+- model: ventasapp.product
+  pk: 1
+  fields:
+    name: Milk
+    unit_cost: 12.00
+    unit_type: unit
