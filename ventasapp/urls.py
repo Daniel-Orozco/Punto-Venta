@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^sales/create/$', views.create_sale),
     url(r'^sales/(?P<sale>([0-9]{1,9}))/edit/$', views.edit_sale),
     url(r'^sales/(?P<sale>([0-9]{1,9}))/delete/$', views.delete_sale),
+	url(r'^search/$', views.search, name='search'),
 )

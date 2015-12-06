@@ -21,7 +21,7 @@ class Sale(models.Model):
 		return change
 	
 	def save( self, *args, **kw ):
-		if self.payment >= self.total:
+		if self.payment < self.total:
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
@@ -29,8 +29,12 @@ class Sale(models.Model):
 		return self.id
 
 class Product(models.Model):
+	id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=200)
 	unit_cost = models.DecimalField(max_digits=10,decimal_places=2)
+	unit_type = models.CharField(max_length=10, default='unit')
+	def __str__(self):
+		return self.name
 
 
 class SalesProducts(models.Model):

@@ -4,8 +4,19 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from ventasapp.models import Sale
 from ventasapp.forms import SaleForm
+from ventasapp.models import Product
 
 # SALES
+
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        # There was a query entered.
+        results = Product.objects.filter(name=query)
+    else:
+        # If no query was entered, simply return all objects
+        results = Product.objects.all()
+    return render(request, 'search.html', {'results': results})
 
 def index(request):
 	sales = Sale.objects.all()
