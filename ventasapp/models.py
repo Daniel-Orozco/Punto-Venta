@@ -4,12 +4,11 @@ from decimal import Decimal
 from django.db import models
 
 class Sale(models.Model):
-
 	id = models.AutoField(primary_key=True)
 	date_created = models.DateTimeField('date created')
-	subtotal = models.DecimalField(max_digits=10,decimal_places=2)
+	subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 	tax = models.IntegerField()
-	payment = models.DecimalField(max_digits=10,decimal_places=2)
+	payment = models.DecimalField(max_digits=10, decimal_places=2)
 
 	def total(self):
 		sub = self.subtotal

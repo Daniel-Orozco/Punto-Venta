@@ -6,8 +6,16 @@ from ventasapp.models import Sale
 from ventasapp.forms import SaleForm
 from datetime import datetime
 from django.utils import formats
-
+from django import template
 # SALES
+
+register = template.Library()
+
+@register.filter
+def show_items():
+	date = datetime.now()
+	salesID=Sale.objects.count() + 1
+	return render_to_response("simulation.html",{"date": date, "sales": salesID} , context_instance = RequestContext(request))
 
 def index(request):
 	sales = Sale.objects.all()
