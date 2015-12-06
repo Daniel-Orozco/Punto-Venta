@@ -21,7 +21,7 @@ class Sale(models.Model):
 		return change
 	
 	def save( self, *args, **kw ):
-		if self.payment < self.total:
+		if self.payment >= self.total:
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
