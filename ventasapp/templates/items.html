@@ -1,0 +1,18 @@
+<form action="/sales/items" method="POST">
+    {% csrf_token %}
+    <input id="search_box" type="text" name="search_box" placeholder="Search">
+    <input id="search_box" type="number" name="search_box" placeholder="Search">
+    <input type="submit"> </input>
+</form>
+<table class="table">
+	<tr>
+		<th> ID </th>
+		<th> Name </th>
+		<th> Amount </th>
+		<th> Price </th>
+		<th> Total </th>
+	</tr>
+	{%for p in BoughtParameters%}
+		
+	{%endfor%}
+</table>

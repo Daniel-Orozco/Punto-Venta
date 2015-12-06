@@ -5,9 +5,10 @@ from django.template import RequestContext
 from ventasapp.models import Sale
 from ventasapp.forms import SaleForm
 from ventasapp.models import Product
+from datetime import datetime
+from django.utils import formats
 
 # SALES
-
 def search(request):
     query = request.GET.get('q')
     if query:
@@ -19,8 +20,8 @@ def search(request):
     return render(request, 'search.html', {'results': results})
 
 def index(request):
-	sales = Sale.objects.all()
-	return render_to_response("index.html",{"SalesParameter": sales},context_instance = RequestContext(request))
+	products = Product.objects.all()
+	return render_to_response("index.html",{"ProductsParameter": products},context_instance = RequestContext(request))
 
 def show_sale(request, sale):
 	sal = Sale.objects.get(id = sale)
@@ -59,3 +60,39 @@ def delete_sale(request, sale):
 def list_sales(request):
 	sales = Sale.objects.all()
 	return render_to_response("list_sales.html",{"SalesParameter": sales},context_instance = RequestContext(request))
+
+def simulation(request):
+	date = datetime.now()
+	salesID=Sale.objects.count() + 1
+	return render_to_response("simulation.html",{"date": date, "sales": salesID} , context_instance = RequestContext(request))
+
+# PRODUCTS
+def create_product(request):
+	if request.method == 'POST':
+		form = ProductForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect("index")
+	else:
+		form = ProductForm()
+		return render_to_response("create_product.html", {"form":form}, context_instance = RequestContext(request))
+
+def edit_product(request, product):
+	pro = Product.objects.get(id = product)
+	if request.method == 'POST':
+		pro.name = request.POST['name']
+		pro.unit_cost = request.POST['unit_cost']
+		pro.unit_type = request.POST['unit_type']
+		pro.save()
+		return redirect("index")
+	else:
+		form = ProductForm(instance = pro)
+		return render_to_response("edit_product.html", {"form":form, "product":product}, context_instance = RequestContext(request)) 
+
+def delete_product(request, product):
+    pro = Product.objects.get(id = product)
+    if request.method == "POST":
+        pro.delete()
+        return redirect("index")
+    else:
+        return render_to_response("delete_product.html", {"product": product}, context_instance = RequestContext(request))
