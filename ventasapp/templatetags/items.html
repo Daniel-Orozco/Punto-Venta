@@ -2,9 +2,9 @@
     {% csrf_token %}
     <input id="search_box" type="text" name="search_box" placeholder="Search">
     <input id="search_box" type="number" name="search_box" placeholder="Search">
-    <input type="Buy"> </input>
+    <input type="submit"> </input>
 </form>
-<table class="table"style="max-height: 300px; height: 300px">
+<table class="table">
 	<tr>
 		<th> ID </th>
 		<th> Name </th>
@@ -16,7 +16,7 @@
 	<tr>
 		<td> {{p.id}} </td>
 		<td>{{p.name}} </td>
-		<td>{{p.unit}} </td>
+		<td>{{}} </td>
 	</tr>
 	{%endfor%}
 </table>
