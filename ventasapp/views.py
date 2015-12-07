@@ -72,10 +72,12 @@ def simulation(request):
 # ITEMS
 def create_item(request):
 	if request.method == 'POST':
-		form = ItemForm(request.POST.get(''))
+		form = ItemForm(request.POST)
 		if form.is_valid():
 			form.save()
 			return redirect("simulation")
+		else:
+			pass
 	else:
 		form = ItemForm()
 		return render_to_response("item.html", {"form":form}, context_instance = RequestContext(request))
