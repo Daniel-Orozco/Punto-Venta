@@ -22,7 +22,7 @@ class Sale(models.Model):
 		return change
 	
 	def save( self, *args, **kw ):
-		if self.payment >= self.total():
+		if Decimal(self.payment) >= self.total():
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
@@ -50,7 +50,7 @@ class Item(models.Model):
 	def save( self, *args, **kw ):
 		if self.quantity > 0:
 			self.sale_id = Sale.objects.get(id=4)
-			self.total = self.product_id.unit_cost * self.quantity
+			self.total = Decimal(self.product_id.unit_cost) * Decimal(self.quantity)
 			super(Item, self).save(*args, **kw)
 
 	def __str__(self):
