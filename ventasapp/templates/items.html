@@ -12,7 +12,14 @@
 		<th> Price </th>
 		<th> Total </th>
 	</tr>
-	{%for p in BoughtParameters%}
-		
+	{%for i in ItemsParameter%}
+		<td>{{i.product_id.id}}</td>
+	    <td>{{i.product_id}}</td>
+	    <td>{{i.quantity}}</td>
+	    <td>{{i.product_id.unit_price}}
+	    <td>{{i.total}}</td>
+	    <td><a href="{{i.id}}/edit/">Edit</a></td>
+	    <td><a href="{{i.id}}/delete/">Delete</a></td>
+	</tr>
 	{%endfor%}
 </table>

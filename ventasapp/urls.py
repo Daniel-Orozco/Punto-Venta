@@ -11,4 +11,7 @@ urlpatterns = patterns('',
     url(r'^sales/(?P<sale>([0-9]{1,9}))/edit/$', views.edit_sale),
     url(r'^sales/(?P<sale>([0-9]{1,9}))/delete/$', views.delete_sale),
 	url(r'^search/$', views.search, name='search'),
+	url(r'^salesSimulation/create/$', views.create_item),
+	url(r'^salesSimulation/(?P<item>([0-9]{1,9}))/edit/$', views.edit_item),
+	url(r'^salesSimulation/(?P<item>([0-9]{1,9}))/delete/$', views.delete_item),
 )

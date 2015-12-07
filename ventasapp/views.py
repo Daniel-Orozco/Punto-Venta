@@ -5,6 +5,8 @@ from django.template import RequestContext
 from ventasapp.models import Sale
 from ventasapp.forms import SaleForm
 from ventasapp.models import Product
+from ventasapp.models import Item
+from ventasapp.forms import ItemForm
 from datetime import datetime
 from django.utils import formats
 
@@ -42,7 +44,7 @@ def edit_sale(request, sale):
 	if request.method == 'POST':
 		sal.subtotal = request.POST['subtotal']
 		sal.payment = request.POST['payment']
-		sal.tax = request.POST['tax']
+		sal.tax = int(request.POST['tax'])
 		sal.save()
 		return redirect("list_sales")
 	else:
@@ -62,9 +64,39 @@ def list_sales(request):
 	return render_to_response("list_sales.html",{"SalesParameter": sales},context_instance = RequestContext(request))
 
 def simulation(request):
+	items = Item.objects.all()
 	date = datetime.now()
-	salesID=Sale.objects.count() + 1
-	return render_to_response("simulation.html",{"date": date, "sales": salesID} , context_instance = RequestContext(request))
+	salesID = Sale.objects.count() + 1
+	return render_to_response("simulation.html",{"date": date, "sales": salesID, "ItemsParameter": items} , context_instance = RequestContext(request))
+
+# ITEMS
+def create_item(request):
+	if request.method == 'POST':
+		form = ItemForm(request.POST.get(''))
+		if form.is_valid():
+			form.save()
+			return redirect("simulation")
+	else:
+		form = ItemForm()
+		return render_to_response("item.html", {"form":form}, context_instance = RequestContext(request))
+
+def edit_item(request, item):
+	itm = Item.objects.get(id = item)
+	if request.method == 'POST':
+		itm.quantity = request.POST['quantity']
+		itm.save()
+		return redirect("simulation")
+	else:
+		form = ItemForm(instance = itm)
+		return render_to_response("edit_item.html", {"form":form, "item":item}, context_instance = RequestContext(request)) 
+
+def delete_item(request, item):
+    itm = Item.objects.get(id = item)
+    if request.method == "POST":
+        itm.delete()
+        return redirect("simulation")
+    else:
+        return render_to_response("delete_item.html", {"item": item}, context_instance = RequestContext(request))
 
 # PRODUCTS
 def create_product(request):
