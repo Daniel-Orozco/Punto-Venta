@@ -33,6 +33,8 @@ def index(request):
 	if cc is None:
 		cc = Cashier()
 		cc.id = 1
+		cc.min_cash = 200
+		cc.max_cash = 1000
 		cc.cash = 200
 		cc.save()
 	return render_to_response("index.html",{"ProductsParameter": products},context_instance = RequestContext(request))
@@ -69,7 +71,9 @@ def edit_settings(request, cashier):
 	if(request.method == 'POST'):
 		register.min_cash = request.POST['min_cash']
 		register.max_cash = request.POST['max_cash']
-		register.cash = register.min_cash
+		if(register.cash < 200):
+			register.cash = register.min_cash
+		register.add_cash(0)
 		register.tax = request.POST['tax']
 		register.save()
 		return redirect("index")
