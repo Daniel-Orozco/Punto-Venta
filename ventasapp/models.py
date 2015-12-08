@@ -49,7 +49,14 @@ class Item(models.Model):
 
 	def save( self, *args, **kw ):
 		if self.quantity > 0:
-			self.sale_id = Sale.objects.get(id=4)
+			last_sale = Sale.objects.latest('id')
+			exists = Item.objects.filter(product_id = self.product_id, sale_id=last_sale.id).first()
+			if exists is None:
+				self.sale_id = last_sale
+			else:
+				self.quantity+=exists.quantity
+				self.sale_id = exists.sale_id
+				exists.delete()
 			self.total = Decimal(self.product_id.unit_cost) * Decimal(self.quantity)
 			super(Item, self).save(*args, **kw)
 

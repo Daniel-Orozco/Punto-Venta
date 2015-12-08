@@ -1,8 +1,8 @@
 <form action="/sales/items" method="POST">
     {% csrf_token %}
-    <input id="search_box" type="text" name="search_box" placeholder="Search">
-    <input id="search_box" type="number" name="search_box" placeholder="Search">
-    <input type="Submit"> </input>
+    <input id="search_box" type="text" name="search_box" placeholder="Search by name...">
+    <input id="search_box" type="number" name="search_box" placeholder="Search by ID...">
+    <input type="submit"> </input>
 </form>
 <table class="table"style="max-height: 300px; height: 300px">
 	<tr>
@@ -12,11 +12,15 @@
 		<th> Price </th>
 		<th> Total </th>
 	</tr>
-	{%for p in BoughtParameters%}
+	{%for i in ItemsParameter%}
 	<tr>
-		<td> {{p.id}} </td>
-		<td>{{p.name}} </td>
-		<td>{{p.unit}} </td>
+		<td> {{i.product_id.id}} </td>
+		<td>{{i.product_id.name}} </td>
+		<td>{{i.quantity}}</td>
+		<td>{{i.product_id.unit_cost}} </td>
+		<td>{{i.total}}</td>
+		<td><a href="{{i.id}}/edit/">Edit</a></td>
+		<td><a href="{{i.id}}/delete/">Delete</a></td>
 	</tr>
 	{%endfor%}
 </table>
