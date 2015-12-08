@@ -13,6 +13,7 @@ from django.db.models import Sum
 from django.utils import timezone
 from django.utils import formats
 from decimal import Decimal
+from django.core.exceptions import ObjectDoesNotExist
 
 # SALES
 '''
@@ -98,13 +99,12 @@ def simulation(request):
 	else:
    		# If no query was entered, simply return all objects
 		results = None #Product.objects.all()
-	items = Item.objects.all()
 	date = timezone.now()
-	SID = Sale.objects.latest('id')
-	if SID is not None:
-		salesID = SID.id+1
-	else:
+	try:
+		salesID = Sale.objects.latest('id').id+1
+	except ObjectDoesNotExist:
 		salesID = 1
+	items = Item.objects.filter(sale_id = salesID-1)
 	subtotal = items.aggregate(Sum('total')).values()[0]
 	cash = Cashier.objects.get(id=1)
 	tax = Decimal.from_float((float(cash.tax)/100)).quantize(Decimal("0.00"))
@@ -119,14 +119,16 @@ def simulation(request):
 
 def finish_simulation(request):
 	if request.method == 'POST':
-		subtotal = request.POST.get('subtotal')
-		payment = request.POST['payment']
-		tax = request.POST.get('tax')
-		total = request.POST.get('total')
-		dlt = Sale.objects.latest('id')
-		i = dlt.id
-		dlt.delete()
-		sim = Sale(id = i, date_created = timezone.now(), subtotal = subtotal, tax = tax, payment = total, total = total)
+		subtotal = Decimal(request.POST.get('subtotal').strip('"'))
+		payment = Decimal(request.POST['payment'].strip('"'))
+		tax = int(float(request.POST.get('tax').strip('"')))
+		total = Decimal(request.POST.get('total').strip('"'))
+		try:
+			dlt = Sale.objects.latest('id').id+1
+		except ObjectDoesNotExist:
+			dlt = 1
+		i = dlt
+		sim = Sale(id = i, date_created = timezone.now(), subtotal = subtotal, tax = tax, payment = payment, total = total)
 		if sim is not None:
 			sim.save()
 			return redirect("index")
@@ -138,7 +140,6 @@ def create_item(request):
 		form = ItemForm(request.POST)
 		if form.is_valid():
 			form.save()
-			print form
 			return redirect("simulation")
 		else:
 			pass
