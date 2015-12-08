@@ -75,7 +75,6 @@ def create_item(request):
 		form = ItemForm(request.POST)
 		if form.is_valid():
 			form.save()
-			print 'medina'
 			return redirect("simulation")
 		else:
 			pass
