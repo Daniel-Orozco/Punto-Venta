@@ -64,10 +64,17 @@ def list_sales(request):
 	return render_to_response("list_sales.html",{"SalesParameter": sales},context_instance = RequestContext(request))
 
 def simulation(request):
+	query = request.GET.get('q')
+	if query:
+        # There was a query entered.
+		results = Product.objects.filter(name=query)
+	else:
+   		# If no query was entered, simply return all objects
+		results = None #Product.objects.all()
 	items = Item.objects.all()
 	date = datetime.now()
 	salesID = Sale.objects.count() + 1
-	return render_to_response("simulation.html",{"date": date, "sales": salesID, "ItemsParameter": items} , context_instance = RequestContext(request))
+	return render_to_response("simulation.html",{"date": date, "sales": salesID, "ItemsParameter": items, "results": results} , context_instance = RequestContext(request))
 
 # ITEMS
 def create_item(request):
