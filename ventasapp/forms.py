@@ -10,7 +10,7 @@ from ventasapp.models import Item
 class SaleForm(forms.ModelForm):
     class Meta:
     	model = Sale
-    	fields = ['id','subtotal','tax','payment']
+    	fields = ['id','subtotal', 'payment']
 
 class ProductForm(forms.ModelForm):
 	class Meta:

@@ -7,8 +7,10 @@ from ventasapp.forms import SaleForm
 from ventasapp.models import Product
 from ventasapp.models import Item
 from ventasapp.forms import ItemForm
+from django.db.models import Sum
 from datetime import datetime
 from django.utils import formats
+from decimal import Decimal
 
 # SALES
 def search(request):
@@ -67,7 +69,12 @@ def simulation(request):
 	items = Item.objects.all()
 	date = datetime.now()
 	salesID = Sale.objects.count() + 1
-	return render_to_response("simulation.html",{"date": date, "sales": salesID, "ItemsParameter": items} , context_instance = RequestContext(request))
+	subtotal = items.aggregate(Sum('total')).values()[0]
+	#Cashier.tax
+	tax = Decimal.from_float(0.16).quantize(Decimal("0.00"))
+	total = (subtotal*(1+tax)).quantize(Decimal("0.00"))
+	tax *= 100
+	return render_to_response("simulation.html",{"date": date, "sales": salesID, "ItemsParameter": items, "subtotal": subtotal, "tax":tax, "total":total} , context_instance = RequestContext(request))
 
 # ITEMS
 def create_item(request):

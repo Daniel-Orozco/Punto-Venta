@@ -11,12 +11,6 @@ class Sale(models.Model):
 	tax = models.IntegerField(default=10)
 	payment = models.DecimalField(max_digits=10,decimal_places=2)
 
-	def total(self):
-		sub = Decimal(self.subtotal)
-		tx = Decimal.from_float(1.00+(self.tax / 100.00))
-		total = (sub*tx).quantize(Decimal("0.00"))
-		return total
-
 	def change(self):
 		change = (self.payment - self.total()).quantize(Decimal("0.00"))
 		return change
