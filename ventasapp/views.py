@@ -7,6 +7,8 @@ from ventasapp.forms import SaleForm
 from ventasapp.models import Product
 from ventasapp.models import Item
 from ventasapp.forms import ItemForm
+from ventasapp.models import Cashier
+from ventasapp.forms import CashForm
 from datetime import datetime
 from django.utils import formats
 
@@ -23,6 +25,12 @@ def search(request):
 
 def index(request):
 	products = Product.objects.all()
+	cc = Cashier.objects.filter(id=1).first()
+	if cc is None:
+		cc = Cashier()
+		cc.id = 1
+		cc.cash = 200
+		cc.save()
 	return render_to_response("index.html",{"ProductsParameter": products},context_instance = RequestContext(request))
 
 def show_sale(request, sale):
@@ -50,6 +58,19 @@ def edit_sale(request, sale):
 	else:
 		form = SaleForm(instance = sal)
 		return render_to_response("edit_sale.html", {"form":form, "sale":sale}, context_instance = RequestContext(request)) 
+		
+def edit_settings(request, cashier):
+	register = Cashier.objects.get(id=1)
+	cashier = 1
+	if(request.method == 'POST'):
+		register.min_cash = request.POST['min_cash']
+		register.max_cash = request.POST['max_cash']
+		register.cash = register.min_cash
+		register.save()
+		return redirect("index")
+	else:
+		form = CashForm(instance = register)
+		return render_to_response("edit_settings.html",{"form":form, "cashier": cashier}, context_instance = RequestContext(request))
 
 def delete_sale(request, sale):
     sal = Sale.objects.get(id = sale)
@@ -72,7 +93,7 @@ def simulation(request):
 # ITEMS
 def create_item(request):
 	if request.method == 'POST':
-		form = ItemForm(request.POST.get(''))
+		form = ItemForm(request.POST)
 		if form.is_valid():
 			form.save()
 			return redirect("simulation")

@@ -22,7 +22,7 @@ class Sale(models.Model):
 		return change
 	
 	def save( self, *args, **kw ):
-		if self.payment >= self.total():
+		if Decimal(self.payment) >= self.total():
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
@@ -50,7 +50,7 @@ class Item(models.Model):
 	def save( self, *args, **kw ):
 		if self.quantity > 0:
 			self.sale_id = Sale.objects.get(id=4)
-			self.total = self.product_id.unit_cost * self.quantity
+			self.total = Decimal(self.product_id.unit_cost) * Decimal(self.quantity)
 			super(Item, self).save(*args, **kw)
 
 	def __str__(self):
@@ -58,3 +58,17 @@ class Item(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.product_id)
+		
+class Cashier(models.Model):
+	id = models.AutoField(primary_key=True)
+	cash = models.DecimalField(max_digits=10,decimal_places=2,default='min_cash')
+	min_cash = models.DecimalField(max_digits=10,decimal_places=2,default=200)
+	max_cash = models.DecimalField(max_digits=10,decimal_places=2,default=1000)
+	withdrawal = models.IntegerField(default=0)
+	
+	def save( self, *args, **kw):
+		if (float(self.min_cash) < float(self.max_cash) and float(self.min_cash) > 0.00 and float(self.max_cash) > 0.00):
+			self.cash = float(self.min_cash)
+			super(Cashier,self).save(*args,**kw)
+	def __str__(self):
+		return int(self.id)

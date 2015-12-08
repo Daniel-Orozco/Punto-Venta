@@ -14,4 +14,5 @@ urlpatterns = patterns('',
 	url(r'^salesSimulation/create/$', views.create_item),
 	url(r'^salesSimulation/(?P<item>([0-9]{1,9}))/edit/$', views.edit_item),
 	url(r'^salesSimulation/(?P<item>([0-9]{1,9}))/delete/$', views.delete_item),
+	url(r'^(?P<cashier>([0-9]{1,9}))/edit_settings/$', views.edit_settings),
 )
