@@ -22,16 +22,22 @@
 	<div class="row">
 		<div class="col-md-9"> <a href="/salesSimulation/create" class="btn btn-info" role="button">Add Product</a></div>
 	</div>
+	<form action="/salesSimulation/finalize/" method="POST">
 	<div class="row">
 		<div class="col-md-offset-3 col-md-4">
-			<h3> Subtotal: <small>{{subtotal}}</small> </h3>
-			<h3> Tax: <small>{{tax}}</small></h3>
-			<h3> Total: <small>{{total}}</small></h3>
+			<h3> Subtotal: <small><input type="text" name="subtotal" value="{{subtotal}}"/></small> </h3>
+			<h3> Tax: <small><input type="text" name="tax" value="{{tax}}"/></small></h3>
+			<h3> Total: <small><input type="text" name="total" value="{{total}}"/></small></h3>
 		</div>
 		<div class="col-md-4">
-			<h3> Payment </h3>
-			<h3> Change </h3>
-		</div> 
+			    {% csrf_token %}
+			        <div class="row">
+			            <div class="col-md-2"><h3>Payment: </h3></div>
+			            <div class="col-md-1">{{form.payment}}</div>
+			        </div>
+			    <input type="submit" class="btn btn-primary btn-lg" value="Finalize Sale">
+		</div>
 	</div>
+	</form> 
 </div>
 {% endblock content %}
