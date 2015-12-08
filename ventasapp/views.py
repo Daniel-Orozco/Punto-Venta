@@ -70,6 +70,7 @@ def edit_settings(request, cashier):
 		register.min_cash = request.POST['min_cash']
 		register.max_cash = request.POST['max_cash']
 		register.cash = register.min_cash
+		register.tax = request.POST['tax']
 		register.save()
 		return redirect("index")
 	else:
@@ -100,9 +101,12 @@ def simulation(request):
 	date = datetime.now()
 	salesID = Sale.objects.count() + 1
 	subtotal = items.aggregate(Sum('total')).values()[0]
-	#Cashier.tax
-	tax = Decimal.from_float(0.16).quantize(Decimal("0.00"))
-	total = (subtotal*(1+tax)).quantize(Decimal("0.00"))
+	cash = Cashier.objects.get(id=1)
+	tax = Decimal.from_float((float(cash.tax)/100)).quantize(Decimal("0.00"))
+	if subtotal is not None:
+		total = (subtotal*(1+tax)).quantize(Decimal("0.00"))
+	else:
+		total = 0.00
 	tax *= 100
 	return render_to_response("simulation.html",{"date": date, "sales": salesID, "ItemsParameter": items, "subtotal": subtotal, "tax":tax, "total":total} , context_instance = RequestContext(request))
 

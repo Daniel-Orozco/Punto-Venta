@@ -26,4 +26,4 @@ class ItemForm(forms.ModelForm):
 class CashForm(forms.ModelForm):
 	class Meta:
 		model = Cashier
-		fields = ['id', 'min_cash', 'max_cash']
+		fields = ['id', 'min_cash', 'max_cash', 'tax']

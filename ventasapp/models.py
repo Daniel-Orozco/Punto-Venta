@@ -10,13 +10,14 @@ class Sale(models.Model):
 	subtotal = models.DecimalField(max_digits=10,decimal_places=2)
 	tax = models.IntegerField(default=10)
 	payment = models.DecimalField(max_digits=10,decimal_places=2)
+	total = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
 
 	def change(self):
-		change = (self.payment - self.total()).quantize(Decimal("0.00"))
+		change = (self.payment - self.total).quantize(Decimal("0.00"))
 		return change
 	
 	def save( self, *args, **kw ):
-		if Decimal(self.payment) >= self.total():
+		if self.payment >= self.total:
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
@@ -66,7 +67,7 @@ class Cashier(models.Model):
 	min_cash = models.DecimalField(max_digits=10,decimal_places=2,default=200)
 	max_cash = models.DecimalField(max_digits=10,decimal_places=2,default=1000)
 	withdrawal = models.IntegerField(default=0)
-	tax = models.DecimalField(max_digits=3,decimal_places=0,default=16)
+	tax = models.IntegerField(default=10)
 	
 	def save( self, *args, **kw):
 		if (float(self.min_cash) < float(self.max_cash) and float(self.min_cash) > 0.00 and float(self.max_cash) > 0.00):
