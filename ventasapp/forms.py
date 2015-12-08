@@ -11,7 +11,7 @@ from ventasapp.models import Cashier
 class SaleForm(forms.ModelForm):
     class Meta:
     	model = Sale
-    	fields = ['id','subtotal', 'payment']
+    	fields = ['id','subtotal', 'tax', 'payment','total']
 
 class ProductForm(forms.ModelForm):
 	class Meta:

@@ -25,7 +25,7 @@ class Sale(models.Model):
 		return self.id
 
 	def __unicode__(self):
-		return unicode(self.tax)
+		return unicode(self.id)
 
 class Product(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -37,15 +37,17 @@ class Product(models.Model):
 		return self.name
 
 class Item(models.Model):
-	sale_id = models.ForeignKey('Sale')
+	sale_id = models.IntegerField(default=1)
 	product_id = models.ForeignKey('Product')
 	quantity = models.DecimalField(max_digits=10,decimal_places=3)
 	total = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
 
 	def save( self, *args, **kw ):
 		if self.quantity > 0:
-			last_sale = Sale.objects.latest('id')
-			exists = Item.objects.filter(product_id = self.product_id, sale_id=last_sale.id).first()
+			last_sale = Sale.objects.count()
+			exists = Item.objects.filter(product_id = self.product_id, sale_id=last_sale).first()
+			if last_sale is 0:
+				last_sale = 1
 			if exists is None:
 				self.sale_id = last_sale
 			else:
