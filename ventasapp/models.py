@@ -17,7 +17,9 @@ class Sale(models.Model):
 		return change
 	
 	def save( self, *args, **kw ):
+		#self.total = self.subtotal
 		if self.payment >= self.total:
+			Cashier.objects.get(id=1).add_cash(self.total)
 			self.date_created = datetime.now()
 			super(Sale, self).save(*args, **kw)
 
@@ -70,10 +72,23 @@ class Cashier(models.Model):
 	max_cash = models.DecimalField(max_digits=10,decimal_places=2,default=1000)
 	withdrawal = models.IntegerField(default=0)
 	tax = models.IntegerField(default=10)
+
+	def add_cash(self,amount):
+		self.cash += Decimal(amount)
+		if(self.cash > Decimal(self.max_cash)):
+			self.withdrawal += Decimal(self.cash) - Decimal(self.min_cash)
+			self.cash = self.min_cash
+		self.save()
+		
+	def return_cash(self,amount):
+		if(self.cash-self.min_cash < amount):
+			amount -= self.cash + self.min_cash
+			self.cash = self.min_cash
+			self.withdrawal -= amount
 	
 	def save( self, *args, **kw):
 		if (float(self.min_cash) < float(self.max_cash) and float(self.min_cash) > 0.00 and float(self.max_cash) > 0.00):
-			self.cash = float(self.min_cash)
+			#self.cash = float(self.min_cash)
 			super(Cashier,self).save(*args,**kw)
 			
 	def __str__(self):
