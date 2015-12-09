@@ -104,7 +104,8 @@ def simulation(request):
 		salesID = Sale.objects.latest('id').id+1
 	except ObjectDoesNotExist:
 		salesID = 1
-	items = Item.objects.filter(sale_id = salesID-1)
+	items = Item.objects.filter(sale_id = salesID)
+	print(items)
 	subtotal = items.aggregate(Sum('total')).values()[0]
 	cash = Cashier.objects.get(id=1)
 	tax = Decimal.from_float((float(cash.tax)/100)).quantize(Decimal("0.00"))

@@ -44,7 +44,7 @@ class Item(models.Model):
 
 	def save( self, *args, **kw ):
 		if self.quantity > 0:
-			last_sale = Sale.objects.count()
+			last_sale = Sale.objects.latest('id').id+1
 			exists = Item.objects.filter(product_id = self.product_id, sale_id=last_sale).first()
 			if last_sale is 0:
 				last_sale = 1
