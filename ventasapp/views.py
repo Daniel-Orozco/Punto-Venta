@@ -115,7 +115,7 @@ def simulation(request):
 	tax *= 100
 	session = Sale(date_created = timezone.now(), subtotal = subtotal, tax = tax, payment = total, total = total)
 	form = SaleForm(request.POST, instance=session)
-	return render_to_response("simulation.html",{"form":form,"date": date, "sales": salesID, "ItemsParameter": items, "subtotal": subtotal, "tax":tax, "total":total} , context_instance = RequestContext(request))
+	return render_to_response("simulation.html",{"form":form,"date": date, "sales": salesID, "ItemsParameter": items, "subtotal": subtotal, "tax":tax, "total":total, "results": results} , context_instance = RequestContext(request))
 
 def finish_simulation(request):
 	if request.method == 'POST':
@@ -134,6 +134,7 @@ def finish_simulation(request):
 			return redirect("index")
 		else:
 			return redirect("simulation")
+
 # ITEMS
 def create_item(request):
 	if request.method == 'POST':
